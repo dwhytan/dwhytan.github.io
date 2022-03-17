@@ -1,0 +1,670 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Creación y seguimiento de Pruebas</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+}
+
+.simple-table-header {
+	background: rgb(247, 246, 243);
+	color: black;
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="45616d25-d2fb-4015-a616-8a0abc5465dc" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">💡</span></div><h1 class="page-title">Creación y seguimiento de Pruebas</h1></header><div class="page-body"><hr id="80b7ab7e-579a-461c-86bd-e89b01a4d5a5"/><p id="4111f875-a487-406f-8397-a8c631aa01e3" class="">Ubicarse en la <strong>Historia a Certificar</strong></p><ul id="a58af8ce-e617-4242-bd7b-898453025826" class="toggle"><li><details open=""><summary><strong>CREAR</strong> <span style="border-bottom:0.05em solid">Test Plan</span> (Asignármelo a mi)</summary><ul id="ecd10044-8074-449b-b773-1920b51e021f" class="toggle"><li><details open=""><summary><strong>General:</strong></summary><p id="9e74e435-82a8-4268-80af-de3cb25fcf29" class=""><strong>Resumen:</strong> [SCRM]<strong> </strong><code>Código de Historia</code></p><ul id="45f8bda0-f224-4175-97df-3c7530f10978" class="toggle"><li><details open=""><summary><strong>Formato de Descripción:</strong></summary><p id="0a370ba8-76f3-439f-bcf7-4ea1dcfeb24a" class="">+<em>Objetivo</em>+: Al ingresar a cada cuenta corriente debe poder verse el detalle de las operaciones de cada cuenta usando la Api. Exp Account Transactions v2 tal y como se ve en el mismo componente en la vista de Mayorista.</p><p id="3bdac60b-9ec5-4ce6-88e8-e12f7b235e57" class="">+<em>Alcance</em>+: SCRMJ-8663, Pruebas Funcionales</p><p id="b9d6f8bc-8cc5-42c4-8329-1b7b1eccee4a" class="">+<em>Ambiente</em>+: Para realizar las pruebas manuales se deberá ingresar al ambiente de certificación.
+UAT: [Salesforce UAT|http://crmbcp--uat.my.salesforce.com]</p><p id="56c3e39f-b68b-4b96-9075-bcd29545b122" class="">+<em>Responsables</em>+: Todas las pruebas asociados al Test Plan lo realizará el QA [~T19502]</p><p id="38d0ea90-717c-46fd-a976-df566bcd4215" class="">+<em>Estrategia</em>+: Tiempo estimado de actividades de prueba: SCRMJ-8663: 4 horas</p></details></li></ul></details></li></ul><ul id="48d2b14d-6b7c-4fb6-a76a-9006a713da60" class="toggle"><li><details open=""><summary><strong>Test Plan Details:</strong></summary><p id="2c9da724-51a0-4738-bbbd-ffe4ac85fd09" class="">Fechas de Inicio y Fin del Sprint</p><p id="1fbb14df-3677-40ee-a6e8-2d075d99709f" class=""><strong>Fecha de Inicio: DD/MM/YYYY HH:HH
+Fecha de Fin: DD/MM/YYYY HH:HH</strong></p></details></li></ul></details></li></ul><ul id="b62407c5-30f4-4f0f-9ac3-8234558a3efc" class="toggle"><li><details open=""><summary><strong>CREAR </strong><span style="border-bottom:0.05em solid">Test Execution</span> (Asignármelo a mi)</summary><p id="d0386daf-4c18-43ff-99cd-abc97bd66d1a" class=""><strong>Resumen:</strong> [SCRM]<strong> </strong><code>Código de Historia</code> [UAT]</p><p id="b2f97dec-251b-41ce-a1b3-dd781d136e9a" class=""><em>Test Execution Details - Entornos de Prueba:</em> <strong>CERTIFICACIÓN</strong></p></details></li></ul><ul id="025228bd-63d9-4c5b-bb61-cad334a7d8c5" class="toggle"><li><details open=""><summary><strong>CREAR </strong><span style="border-bottom:0.05em solid">Test Set</span> (Asignármelo a mi)</summary><p id="32571f8b-70de-4b7c-bc68-967a08feb6f3" class=""><strong>Resumen:</strong> [SCRM]<strong> </strong><code>Código de Historia</code></p></details></li></ul><ul id="7211d8ff-759f-4507-b13b-547de37925ca" class="toggle"><li><details open=""><summary><strong>CREAR TEST </strong>(Asignármelo a mi)</summary><ul id="6059a2e5-53eb-4ef1-aee1-8c635a39f0fb" class="toggle"><li><details open=""><summary><strong>General:</strong></summary><p id="5e6eabe0-482d-4547-98ef-aaa5eec78e6a" class=""><strong>Resumen:</strong> [SCRM]<strong> </strong><code>Breve descripción del test</code></p><p id="693270e7-8152-4321-96e0-31012eb4c09d" class=""><strong>Descripción: </strong>En términos generales.</p><p id="89d44269-2053-4f12-83a0-9df6063e1591" class=""><strong>Etiqueta:</strong> <code>Técnica de diseño de caso de prueba</code></p></details></li></ul><ul id="daf5f2e9-92e2-4712-9d6d-a8ae51998420" class="toggle"><li><details open=""><summary><strong>Test Detail:</strong></summary><ul id="73aaa859-a482-4b83-b5e4-8027e221f492" class="bulleted-list"><li style="list-style-type:disc">Tipo de Test: <strong>Cucumber</strong></li></ul><ul id="554af593-7238-449b-a7f9-1778f9ffb3b4" class="bulleted-list"><li style="list-style-type:disc">Test Type BCP: <strong>Manual</strong></li></ul><ul id="1bc30b0c-39e3-4725-8a14-0c90a477f113" class="bulleted-list"><li style="list-style-type:disc">Tipo Cucumber: <strong>Scenario o Scenario Outline</strong></li></ul><ul id="d3bfc081-9005-4d2b-b528-4abf0f24bddb" class="bulleted-list"><li style="list-style-type:disc">Escenario de Cucumber: <strong>CP en Gherkin</strong></li></ul><ul id="040da522-70e1-4f3f-8d8d-6cd5500e546a" class="bulleted-list"><li style="list-style-type:disc">Automatizado: <strong>SI o NO</strong></li></ul><ul id="dbb338d4-e5ed-44be-9bbc-8f0a279c9725" class="bulleted-list"><li style="list-style-type:disc">Test Sets: Grupo de Test Set <code>Código de Test Set</code></li></ul></details></li></ul></details></li></ul><ul id="d1fe0120-da8e-4f10-9ea8-02d0451eff65" class="toggle"><li><details open=""><summary><span style="border-bottom:0.05em solid"><strong>Relacionar trabajos:</strong></span></summary><p id="ba16c3eb-48d5-4bbf-962f-2eda28d1355e" class="">Buscar en JIRA por: <strong><code>Código de Historia de Usuario</code></strong><strong> </strong>para ubicarse facilmente.</p><ol type="1" id="afcd3a66-fa5d-4bbb-a5e6-71b9799c3221" class="numbered-list" start="1"><li><strong>Historia</strong>: <span style="border-bottom:0.05em solid">Enlace </span>→ Relates To → <code>Código de Test Plan</code></li></ol><ol type="1" id="836dca77-3b49-4f25-9159-89c0462933c7" class="numbered-list" start="2"><li><strong>Historia</strong>: <span style="border-bottom:0.05em solid">Enlace </span>→ Tested By → <code>Código de Test Execution</code></li></ol><ol type="1" id="b7c376ef-3e28-44de-b421-c663692318c7" class="numbered-list" start="3"><li><strong>Test Execution</strong>: <span style="border-bottom:0.05em solid">+Añadir</span> → Grupos de Tests, <code>Código de Test Set</code></li></ol><ol type="1" id="8833a6d2-88ed-4f70-b4b4-b07698658997" class="numbered-list" start="4"><li><strong>Test Plan:</strong> <span style="border-bottom:0.05em solid">Añadir Ejecuciones de Test</span>, <code>Código de Test Execution</code></li></ol></details></li></ul><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="8cc4cd57-f3af-4c87-b234-376ca99914ec"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">Terminar Subtareas “Creación de Casos de Pruebas UAT” o similares en Jira, asignado por el <strong>Desarrollador</strong></div></figure><ul id="04497b50-825a-49c8-b393-549653bdfda5" class="toggle"><li><details open=""><summary><span style="border-bottom:0.05em solid"><strong>En Test Plan:</strong></span> Crear Subtarea <strong><em>“Revisión Plan de Pruebas” </em></strong>asignado a Alex Mejia</summary><ul id="9433d208-5ce5-4ec3-b27c-919e54dda3dd" class="toggle"><li><details open=""><summary><strong>Descripción</strong>:</summary><p id="d5d8ef9c-18a2-40f7-99e6-6e3ac6e79a3c" class=""><strong>Se validará los siguientes puntos:</strong></p><ul id="eebe9148-8b8e-4bb4-9f44-90e3c5a82820" class="bulleted-list"><li style="list-style-type:disc">Verificar que los casos de prueba estén orientados a los criterios de aceptación de la Historia de Usuario</li></ul><ul id="34f2a10d-3c86-4c80-b9c1-2798aec51135" class="bulleted-list"><li style="list-style-type:disc">Verificar que todos los casos de prueba deben estar redactados en el lenguaje Gherkin.</li></ul><ul id="c8d825d3-b51a-497e-8e2f-f04f0cbc95a4" class="bulleted-list"><li style="list-style-type:disc">Verificar que todos los casos de prueba deben tener la etiqueta que indica la técnica de diseño de caso de prueba que se utilizo.</li></ul><ul id="b8aeb0a5-9ae6-4bd4-b644-0251673e7c3e" class="bulleted-list"><li style="list-style-type:disc">Verificar que se especifique el objetivo del Test Plan durante el sprint.</li></ul><ul id="0aefe5b4-a2f7-4880-9124-a85ecbabcb55" class="bulleted-list"><li style="list-style-type:disc">Verificar que se especifique el alcance (Las historias que se verán durante el sprint).</li></ul><ul id="706eebed-1074-423d-9023-8a5f1b41ed8a" class="bulleted-list"><li style="list-style-type:disc">Verificar que se especifique los ambientes donde se realizarán las pruebas.</li></ul><ul id="1531ee9e-e02a-4bd6-8d59-fb53f2643e2a" class="bulleted-list"><li style="list-style-type:disc">Verificar que se especifique el responsable de las pruebas.</li></ul><ul id="a539a8da-ec06-4e2a-b32e-fe3ef6fc9cf1" class="bulleted-list"><li style="list-style-type:disc">Verificar que se especifique la cantidad de horas que demorara en realizar las actividades de prueba.</li></ul><ul id="ab042bb1-b9da-4f02-85fa-c27e3a3fe6bb" class="bulleted-list"><li style="list-style-type:disc">Verificar que se está considerando el impacto con otros aplicativos en el análisis y diseño de escenarios de pruebas.</li></ul><ul id="9a9420b4-7e2e-49b3-a6cf-c610a135e7fe" class="bulleted-list"><li style="list-style-type:disc">Verificar que se está incluyendo escenarios de pruebas en el que se considera interfaces con otros aplicativos.</li></ul><ul id="15fafe81-b88a-42fd-9485-c59b95e0186b" class="bulleted-list"><li style="list-style-type:disc">Asegurar que no exista inconsistencias entre el alcance y los casos de prueba.</li></ul><ul id="d47bc26b-2cc7-4a4b-b470-e99c4a097620" class="bulleted-list"><li style="list-style-type:disc">Asegurar que no existen contradicciones entre lo que se pide versus lo que se mapea en los casos de prueba.</li></ul><ul id="af9ce99c-5b17-42af-bbb7-27261d0749a5" class="bulleted-list"><li style="list-style-type:disc">Asegurar que los resultados esperados de los casos de prueba estén detallados con exactitud.</li></ul><ul id="dd948c17-7574-4553-84e3-5b5079aafd3e" class="bulleted-list"><li style="list-style-type:disc">Verificar que en los casos de prueba se indique siempre el resultado esperado.</li></ul><ul id="5b0ef35d-3bba-4143-8663-934d9c20b6c2" class="bulleted-list"><li style="list-style-type:disc">Verificar que se haya contemplado escenarios de pruebas para las pruebas que aplicarían(contables, rendimiento, seguridad).</li></ul><ul id="c45b85b4-3bab-4b58-b2b1-1b71cb659d4f" class="bulleted-list"><li style="list-style-type:disc">Verificar que en los casos de prueba se detalle la funcionalidad como un flujo completo.</li></ul><ul id="720c7371-fd40-4bb0-9e01-03a32fbea875" class="bulleted-list"><li style="list-style-type:disc">Verificar que no se agrupe mucha funcionalidad en un solo caso de prueba.Asegurar que se haya incluido casos de prueba críticos y casos de regresión de acuerdo a lo solicitado.</li></ul><ul id="a7a87522-dee6-44d1-97e9-f954c7b7e7bb" class="bulleted-list"><li style="list-style-type:disc">Verificar que se cuente con casos de prueba No OK.</li></ul><ul id="2000886f-6a1b-46a1-ad2c-aa5028cf75bb" class="bulleted-list"><li style="list-style-type:disc">Verificar que se haga el rediseño o actualización de casos de prueba si la funcionalidad a probar ha cambiado.</li></ul></details></li></ul></details></li></ul><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="b96071d5-f5cc-4f55-af4c-4361e47ee779"><div style="font-size:1.5em"><span class="icon">📢</span></div><div style="width:100%">Agendar Reunión de <strong><em>Revisión Plan de Pruebas</em></strong> con Alex Mejia por <strong>Outlook</strong></div></figure><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="ed6140c8-29ea-40cb-a02c-df59bcd500a6"><div style="font-size:1.5em"><span class="icon">🎯</span></div><div style="width:100%"><strong>Iniciando y Terminando Certificación en UAT</strong><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="24354207-01a0-4d04-a355-79beabd33345"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Cambiar el estado en HU y MVP (Pequeña descripción)</div></figure></div></figure><ul id="c4d6d3b8-d1d7-49d6-b169-b8d96e0d3844" class="toggle"><li><details open=""><summary><strong>CLONAR </strong><span style="border-bottom:0.05em solid"><strong>Test Execution UAT</strong></span></summary><ul id="2b7497a4-3f43-4d03-b800-485987c5f0e5" class="toggle"><li><details open=""><summary>Modificar el Resumen a [PROD] y la descripción</summary><p id="661b119f-1c7e-487b-961a-35373c8d3b57" class="">Las pruebas se realizarán en su totalidad por el QA [~T19502]</p><p id="3504a413-862b-4c04-a3c7-42693ce53dff" class=""><em>Data de prueba:</em> Stark industries - Cuentas</p><p id="eabd5e54-7357-4df8-9917-4072086aee8e" class=""><em>Rol de prueba:</em></p><ul id="e7a6edd1-5483-4b04-a30a-528eba89202d" class="bulleted-list"><li style="list-style-type:disc">Analista de activos y pasivos</li></ul><ul id="b8465249-feb7-4d4a-b560-a914d47bac77" class="bulleted-list"><li style="list-style-type:disc">Ejecutivo de Riesgos</li></ul><ul id="fd7bcfcc-3465-4fa2-9c94-ba503250fd3d" class="bulleted-list"><li style="list-style-type:disc">Ejecutivo de negocio BE</li></ul><ul id="8059a10d-3d37-4301-b2e8-3e67636b1093" class="bulleted-list"><li style="list-style-type:disc">Gerencia de Área de producto y ventas de tesorería</li></ul><ul id="523be497-d696-42aa-a699-130c6a5390bd" class="bulleted-list"><li style="list-style-type:disc">PO Mayorista</li></ul><p id="46946c03-7d6c-465f-822c-e2252576c32d" class=""><em>Tipo de ratificación:</em> +Total+</p><p id="3d4818cb-963e-4a2a-af5a-8b284cdaef78" class="">09/03/2022 21:30:00
+09/03/2022 23:00:00</p></details></li></ul><p id="12b73c02-ade5-4f15-95ca-705e9a764a94" class="">Modificar el Entorno de prueba: PRODUCCIÓN</p><p id="48483754-533a-404b-adaf-8bd7cf49343e" class="">Modificar o  Enlace TESTS al MVP y no a la HU</p></details></li></ul><ul id="3fcf0b6d-d29e-41d3-91ff-b08b0b6232bc" class="toggle"><li><details open=""><summary><span style="border-bottom:0.05em solid"><strong>En Test Execution PROD:</strong></span> Crear Subtarea <strong><em>“Revisión de pares del Plan de Ratificación” </em></strong>asignado a Alex Mejia</summary><ul id="42bb4dca-8a40-4735-93bb-902f8a13f69f" class="toggle"><li><details open=""><summary>Checkist</summary><p id="c36910d3-7ba7-4af1-b05f-c8b5f636c998" class=""><strong>Se validará los siguientes puntos:</strong></p><ul id="31977679-1597-4239-96a2-af295e67000f" class="bulleted-list"><li style="list-style-type:disc">Toda Historia debe tener un Test Execution, el cual se encontrara en el Test Plan y este debe tener los casos de prueba que se considero para ese Sprint</li></ul><ul id="b63dfd9b-715f-4ca6-a5fc-165b56dc764d" class="bulleted-list"><li style="list-style-type:disc">Los Test Execution deben estar en estado Resuelto</li></ul><ul id="5f1c8fce-2dd6-4f0b-9472-932fd7b7d5e2" class="bulleted-list"><li style="list-style-type:disc">Todos los casos de prueba relacionado en el Test Execution deben estar ejecutados y con su evidencia correspondientemente.</li></ul><ul id="8ab3bee7-f4d3-494d-afe6-fe31103d24cd" class="bulleted-list"><li style="list-style-type:disc">Los defectos asociados a la historia y caso de prueba, deben estar cerrados.</li></ul><ul id="bb36c4d5-78bf-4ad0-9dfc-b9ffbcb5fc6f" class="bulleted-list"><li style="list-style-type:disc">Verificar que se tengan registrados los defectos encontrados</li></ul><ul id="90942d41-42dd-4b7f-b935-ca658b408f98" class="bulleted-list"><li style="list-style-type:disc">Verificar que se tenga un “link” entre el caso de prueba y el defecto encontrado</li></ul><ul id="edb81ea7-1a4f-4cb0-abf4-faefd1734528" class="bulleted-list"><li style="list-style-type:disc">Asegurar que se haya realizado una nueva ejecución luego de la corrección de un defecto.</li></ul><ul id="f8ed84d3-4449-456a-978c-7bb3941f51d4" class="bulleted-list"><li style="list-style-type:disc">Validar que se debe identificar las actividades que podrán realizar en producción y en que casos tendrá que realizar una coordinación con el usuario final para la ratificación.</li></ul><ul id="a641d77d-5396-49fb-a928-979e83ea70a9" class="bulleted-list"><li style="list-style-type:disc">Validar que se indique la data de prueba en producción que se usara.</li></ul><ul id="04c005aa-b512-4a93-ab60-9cf8b32a7004" class="bulleted-list"><li style="list-style-type:disc">Validar que los usuarios ficticios cuente con el rol y acceso a producción para la ratificación. (indicar usuario y hasta cuando tiene accesos.</li></ul><ul id="2c8c5067-33a2-410c-8651-f0c3dbef8b12" class="bulleted-list"><li style="list-style-type:disc">Validar que se indique el tipo de ratificación que se realizara (Total o parcial)</li></ul></details></li></ul><p id="00a8c19f-03d2-4098-8e2c-abe696a9ae2e" class="">
+</p></details></li></ul><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="0d0dbbe3-3925-47e0-8260-f9917abdbc45"><div style="font-size:1.5em"><span class="icon">📢</span></div><div style="width:100%">Agendar Reunión de <strong><em>Revisión de pares del Plan de Ratificación</em></strong> con Alex Mejia por <strong>Outlook</strong></div></figure><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="a9a03c1e-2e6c-4aea-9f98-44194386bd48"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Solicitud de Accesos para Ratificación en Producción<figure id="08ee16b3-ea3d-49b6-86c0-36acd1760549" class="link-to-page"><a href="Creacio%CC%81n%20%2045616/Correos%20de%2008ee1.html"><span class="icon">✉️</span>Correos de Solicitud</a></figure></div></figure><ul id="4c531c39-c677-49b1-b92c-59a2128d4dd7" class="toggle"><li><details open=""><summary><strong>Solicitar Accesos a Producción en Remedy</strong></summary><ol type="1" id="eb4d6313-ed72-4466-9f0c-aa1ce88a98c5" class="numbered-list" start="1"><li><strong>Ingresar </strong>a <a href="https://remedy9mdpro.lima.bcp.com.pe:8443/arsys/">https://remedy9mdpro.lima.bcp.com.pe:8443/arsys/</a></li></ol><ol type="1" id="306db596-6e93-423b-997e-4025b14ad644" class="numbered-list" start="2"><li><strong>Aplicaciones - Gestión de Petición de Servicios - Nueva Orden de Trabajo</strong></li></ol><ol type="1" id="98a5aabc-0d1d-4a32-bfb9-c7550c904aa3" class="numbered-list" start="3"><li><strong>Cliente: </strong><code>Matrícula</code> y seleccionar el nombre correspondiente</li></ol><ol type="1" id="554d5b66-1991-42e7-baf7-4f55e82d8b0d" class="numbered-list" start="4"><li><strong>Contacto:</strong> <code>Matrícula</code> y seleccionar el nombre correspondiente</li></ol><ol type="1" id="68e418c6-b620-4807-adcd-fa20b123b4b7" class="numbered-list" start="5"><li><strong>Notas: </strong><blockquote id="52c8b1a6-ce98-4361-896e-305987c24019" class="">Estimados, por favor su apoyo con los accesos según las conformidades indicadas.
+Gracias.</blockquote></li></ol><ol type="1" id="8fbc58fc-a051-4731-b807-4cf3ce11c523" class="numbered-list" start="6"><li><strong>Resumen:</strong> Accesos a Producción - Cliente 360</li></ol><ol type="1" id="38b19947-2a95-465b-81e0-d4cceafafa6e" class="numbered-list" start="7"><li><strong>Fuente Reportada:</strong> <code>Correo Electrónico</code></li></ol><ol type="1" id="b278f26a-8625-47e7-8a2d-17fd86d3493f" class="numbered-list" start="8"><li><strong>Nombre de grupo de soporte: </strong><code>Calidad de Software - BCP</code></li></ol><ol type="1" id="e3c7f369-6aad-4bc9-aef5-93e7c2b37e72" class="numbered-list" start="9"><li><strong>Gestor de Peticiones:</strong> <code>Mi Nombre Completo</code> y seleccionar el nombre correspondiente</li></ol><ol type="1" id="45a6e991-4349-4a92-9673-2e4c5cd2444d" class="numbered-list" start="10"><li><strong>Nombre de grupo de soporte: </strong><code>Ratificación - Gestión de Accesos</code></li></ol><ol type="1" id="195ee2f2-9b06-4e4f-a945-2eae8229ba47" class="numbered-list" start="11"><li><strong>Prioridad:</strong> Alta</li></ol><ol type="1" id="3d096745-fcbb-494c-ad2d-ea8ad6a8aa9a" class="numbered-list" start="12"><li><strong>Categorización:</strong> Ambiente - <span style="border-bottom:0.05em solid">Producción</span></li></ol><ol type="1" id="3fe20f8a-79a4-4c3c-a122-a300227c55ae" class="numbered-list" start="13"><li><strong>Detalles de Trabajo:</strong><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="06299df8-35b7-435c-a5b9-51b1eda5f8e8"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>Notas:</strong> Se adjunta conformidad.<p id="ff72112f-3f99-45da-aafc-e8bef328677e" class=""><strong>Archivos adjuntos:</strong> Seleccionar 📁 y adjuntar Archivo Zippeado con: <strong>3 Correos + Excel (Formato de accesos PAR SCRM), </strong>Clic en Aceptar, Clic en Agregar</p></div></figure></li></ol><ol type="1" id="b3b545d8-42c2-4cef-9238-7bb2af03102f" class="numbered-list" start="14"><li><strong>GUARDAR</strong></li></ol><p id="31b7bcc5-8c99-4c35-b3a5-a3c51aed7062" class="">
+</p></details></li></ul><h1 id="08523f49-c91a-46f1-914d-f71d9dcd335f" class="">Situaciones</h1><hr id="94e0d76d-5625-4890-83a3-3c09392f0115"/><ul id="f1431d41-6011-4fcf-9d02-29e0a43e7655" class="toggle"><li><details open=""><summary><strong>CREAR </strong><span style="border-bottom:0.05em solid">Error</span> (Asignármelo, QA)</summary><ul id="d5543d50-ea69-4169-b423-c0dc7235378d" class="toggle"><li><details open=""><summary><strong>General: </strong></summary><p id="72a9945b-d7c6-4425-8191-bed39fccf229" class=""><strong>Resumen:</strong> [SCRM]<strong> </strong><code>Breve descripción del test</code></p><p id="89479892-2a0f-48a3-a101-a58af1bc679c" class=""><strong>Código de Aplicación:</strong> SCRM</p><p id="1823bef0-1aee-4483-9101-6ddc50157117" class=""><strong>Descripción:</strong> <code>Resumen de los defectos encontrado</code></p><ul id="64a850b0-70a9-4df5-b19c-ac8b42ec644c" class="toggle"><li><details open=""><summary><strong>Etiquetas:</strong> </summary><p id="3f4a8074-d201-4a59-aa2b-237a9c1007e2" class="">Solo una de éstas</p><ul id="7b6018d1-d685-4492-87ea-1108ef0d8226" class="bulleted-list"><li style="list-style-type:disc">SoporteCDN</li></ul><ul id="64f70bf6-205e-48b0-933b-61aa1345f62d" class="bulleted-list"><li style="list-style-type:disc">Salesforce</li></ul><ul id="4b092798-6ac8-4495-a67f-286c92838842" class="bulleted-list"><li style="list-style-type:disc">Batch</li></ul><ul id="ab148320-9c45-45cf-afe2-860e11334559" class="bulleted-list"><li style="list-style-type:disc">API</li></ul><ul id="88f500ad-d7d5-4654-a404-c1e4a022cfd2" class="bulleted-list"><li style="list-style-type:disc">Gestion</li></ul><ul id="3b4fb668-6a26-421c-946b-fbff74d1524e" class="bulleted-list"><li style="list-style-type:disc">UX/UI</li></ul></details></li></ul><p id="20db5cda-1288-44c3-a029-9666ec366d30" class=""><strong>Adjunto: </strong><code>Archivo de evidencia</code></p></details></li></ul><ul id="e408a27a-f399-4579-957d-3a5c713d2cb2" class="toggle"><li><details open=""><summary><strong>Project:</strong></summary><p id="94d147f7-9cb4-4ec6-9266-3f62878d0268" class=""><strong>Sprint: </strong><code>Código de Sprint</code></p><ul id="0c1ca9a6-117c-4cd5-a574-b5c2076dad1c" class="toggle"><li><details open=""><summary><strong>Story Points: </strong></summary><p id="fd7d0853-2f78-44ea-a9d3-25b44f563b79" class="">CORRESPONDENCIAS PUNTOS vs. RANGOS DE TIEMPOS
+1 punto ← 1 hr a 1 día
+2 pts ← 1 día a 2 días
+3 pts ← 2 días a 3 días
+5 pts ← 3 días a 5 días
+8 pts ← 5 días a 7 días
+13 pts ← 7 días a 10+ días (1 sprint entero = 10 días hábiles)</p><p id="8b9bf853-a081-471c-8c91-0968bffbff7e" class="">Al estimar un Error (Bug), 1ero tener en cuenta el tiempo invertido en su resolución y se infiere el puntaje correspondiente. Osea se pone el puntaje después de que se resolvió, pero no abandonarlo sin puntaje.</p></details></li></ul></details></li></ul><ul id="f755d814-16c2-4be7-906e-f8d204875e81" class="toggle"><li><details open=""><summary><strong>Artifact:</strong></summary><p id="d4110b5a-1099-472b-b4b0-7258588b01a2" class=""><strong>Ambiente:</strong> <span style="border-bottom:0.05em solid">Certificación</span></p></details></li></ul></details></li></ul><ul id="e8ce0512-24d2-4318-ab23-81e10a2847fa" class="toggle"><li><details open=""><summary><span style="border-bottom:0.05em solid"><strong>Relacionar Error:</strong></span></summary><ol type="1" id="ea7a2ad5-d62e-4716-9080-ca4d54452f6b" class="numbered-list" start="1"><li><strong>Historia</strong>: <span style="border-bottom:0.05em solid">Enlace </span>→ Relates To → <code>Código de Error</code></li></ol><ol type="1" id="16de9e3f-c51c-4244-9133-c67fda925ea4" class="numbered-list" start="2"><li><strong>Test Execution</strong>: <code>Caso de Prueba</code> → Detalles de Ejecución → Añadir Defectos, <code>Código de Error</code></li></ol></details></li></ul><p id="cb1e62b4-4823-460e-9f7e-964b5ee3cf09" class="">
+</p></div></article></body></html>
